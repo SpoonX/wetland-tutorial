@@ -1,0 +1,27 @@
+{
+  "name": "wetland-tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RWOverdijk/wetland-tutorial.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RWOverdijk/wetland-tutorial/issues"
+  },
+  "homepage": "https://github.com/RWOverdijk/wetland-tutorial#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "express-wetland": "^1.0.0",
+    "sqlite3": "^3.1.8",
+    "wetland": "^1.3.0"
+  }
+}
