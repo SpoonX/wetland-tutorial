@@ -17,5 +17,8 @@ app.use(expressWetland(wetland));
 app.use('/product', require('./app/resource/product'));
 app.use('/category', require('./app/resource/category'));
 
-// Start server
-app.listen(3000, () => console.log('Inventory manager ready! Available on http://127.0.0.1:3000'));
+// Update the database schema
+wetland.getMigrator().devMigrations().then(() => {
+  // Start server
+  app.listen(3000, () => console.log('Inventory manager ready! Available on http://127.0.0.1:3000'));
+});
