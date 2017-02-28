@@ -3,6 +3,8 @@ class Category {
     mapping.forProperty('id').primary().increments();
 
     mapping.field('name', {type: 'string'});
+
+    mapping.manyToMany('products', {targetEntity: 'Product', inversedBy: 'categories'});
   }
 }
 
