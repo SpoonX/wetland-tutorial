@@ -1,5 +1,9 @@
+const ProductRepository = require('../repository/ProductRepository');
+
 class Product {
   static setMapping(mapping) {
+    mapping.entity({repository: ProductRepository});
+
     mapping.forProperty('id').primary().increments();
 
     mapping.field('name', {type: 'string'});
