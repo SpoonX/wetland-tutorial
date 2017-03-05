@@ -10,6 +10,14 @@ router.get('/depleted', (req, res) => {
     .catch(error => res.status(500).json({error}));
 });
 
+// Get abundant products
+router.get('/abundant', (req, res) => {
+  req.getRepository(Product)
+    .findAbundant()
+    .then(result => res.json(result || []))
+    .catch(error => res.status(500).json({error}));
+});
+
 // Get a specific product
 router.get('/:id', (req, res) => {
   req.getRepository(Product)
