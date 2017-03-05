@@ -5,7 +5,7 @@ const Category = require('../entity/Category');
 // Get a specific category
 router.get('/:id', (req, res) => {
   req.getRepository(Category)
-    .findOne(req.params.id)
+    .findOne(req.params.id, {populate: 'products'})
     .then(result => {
       if (!result) {
         return res.status(404).json(null)
@@ -18,7 +18,7 @@ router.get('/:id', (req, res) => {
 
 // List all categories
 router.get('/', (req, res) => {
-  req.getRepository('Category').find()
+  req.getRepository('Category').find(null, {populate: 'products'})
     .then(result => res.json(result || []))
     .catch(error => res.status(500).json({error}));
 });

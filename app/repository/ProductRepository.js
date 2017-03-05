@@ -2,13 +2,14 @@ const {EntityRepository} = require('wetland');
 
 class ProductRepository extends EntityRepository {
   findDepleted() {
-    return this.find({stock: 0});
+    return this.find({stock: 0}, {populate: 'categories'});
   }
 
   findAbundant() {
     return this.getQueryBuilder('p')
-      .select('p')
+      .select('p', 'c')
       .where({'p.stock': {'>': 4}})
+      .leftJoin('p.categories', 'c')
       .getQuery()
       .getResult();
   }
