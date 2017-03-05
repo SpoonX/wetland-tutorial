@@ -12,6 +12,22 @@ class ProductRepository extends EntityRepository {
       .getQuery()
       .getResult();
   }
+
+  findDepletedCount() {
+    return this.getQueryBuilder('p')
+      .select({count: 'p.id'})
+      .where({stock: 0})
+      .getQuery()
+      .getSingleScalarResult();
+  }
+
+  findAbundantCount() {
+    return this.getQueryBuilder('p')
+      .select({count: 'p.id'})
+      .where({'p.stock': {'>': 4}})
+      .getQuery()
+      .getSingleScalarResult();
+  }
 }
 
 module.exports = ProductRepository;

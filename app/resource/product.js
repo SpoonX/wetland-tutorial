@@ -18,6 +18,22 @@ router.get('/abundant', (req, res) => {
     .catch(error => res.status(500).json({error}));
 });
 
+// Get abundant products count
+router.get('/abundant/count', (req, res) => {
+  req.getRepository(Product)
+    .findAbundantCount()
+    .then(result => res.json({count: result}))
+    .catch(error => res.status(500).json({error}));
+});
+
+// Get depleted products count
+router.get('/depleted/count', (req, res) => {
+  req.getRepository(Product)
+    .findDepletedCount()
+    .then(result => res.json({count: result}))
+    .catch(error => res.status(500).json({error}));
+});
+
 // Get a specific product
 router.get('/:id', (req, res) => {
   req.getRepository(Product)
