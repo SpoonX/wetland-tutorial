@@ -40,7 +40,7 @@ router.get('/:id', (req, res) => {
     .findOne(req.params.id, {populate: 'categories'})
     .then(result => {
       if (!result) {
-        return res.status(404).json(null)
+        return res.status(404).json(null);
       }
 
       return res.json(result);
@@ -86,5 +86,30 @@ router.patch('/:id', (req, res) => {
     })
     .catch(error => res.status(500).json({error}));
 });
+
+// Add stock for a product
+router.patch('/:id/restock', (req, res) => updateStock(req, res, req.body.quantity));
+
+// Consume stock for a product
+router.patch('/:id/consume', (req, res) => updateStock(req, res, -req.body.quantity));
+
+// Helper method.
+const updateStock = (req, res, quantity) => {
+  let manager = req.getManager();
+
+  manager.getRepository(Product)
+    .findOne(req.params.id)
+    .then(product => {
+      if (!product) {
+        return res.status(404).json(null)
+      }
+
+      product.stock += parseInt(quantity);
+
+      manager.flush()
+        .then(() => res.json(product))
+        .catch(error => res.status(500).json({error}));
+    });
+};
 
 module.exports = router;
