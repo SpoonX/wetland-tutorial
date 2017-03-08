@@ -42,18 +42,35 @@ To make it easier to talk to the api, I have created a list of curl commands.
 
 ```bash
 curl -XPOST -H 'Content-Type: application/json' -d '{
-  "name":"electronics"
+  "name": "electronics"
 }' http://127.0.0.1:3000/category
 ```
+### Update category
+> `PATCH /category/:id`
+
+```bash
+curl -XPATCH -H 'Content-Type: application/json' -d '{
+  "name": "new name"
+}' http://127.0.0.1:3000/category/1
+```
+
 
 ### Create product
 > `POST /product`
 
 ```bash
 curl -XPOST -H 'Content-Type: application/json' -d '{
-  "name":"monitor",
+  "name": "monitor",
   "categories": [1]
 }' http://127.0.0.1:3000/product
+```
+### Update product
+> `PATCH /product/:id`
+
+```bash
+curl -XPATCH -H 'Content-Type: application/json' -d '{
+  "name": "new name"
+}' http://127.0.0.1:3000/product/1
 ```
 
 ### Get products
@@ -89,7 +106,7 @@ curl http://127.0.0.1:3000/category/1
 
 ```bash
 curl -XPATCH -H 'Content-Type: application/json' -d '{
-  "quantity":"2"
+  "quantity": "2"
 }' http://127.0.0.1:3000/product/1/restock
 ```
 
@@ -98,7 +115,7 @@ curl -XPATCH -H 'Content-Type: application/json' -d '{
 
 ```bash
 curl -XPATCH -H 'Content-Type: application/json' -d '{
-  "quantity":"2"
+  "quantity": "2"
 }' http://127.0.0.1:3000/product/1/consume
 ```
 
