@@ -1,7 +1,6 @@
 const express           = require('express');
 const router            = express.Router();
 const Product           = require('../entity/Product');
-const {ArrayCollection} = require('wetland');
 
 // Get depleted products
 router.get('/depleted', (req, res) => {
@@ -58,19 +57,33 @@ router.get('/', (req, res) => {
 
 // Create a new product
 router.post('/', (req, res) => {
-  let manager = req.getManager();
-  let product = new Product;
-
-  product.name       = req.body.name;
-  product.stock      = parseInt(req.body.stock);
-  product.categories = new ArrayCollection;
-
-  let category = manager.getReference('Category', req.body.category);
-
-  product.categories.add(category);
+  let manager   = req.getManager();
+  let populator = req.wetland.getPopulator(manager);
+  let product   = populator.assign(Product, req.body);
 
   manager.persist(product).flush()
     .then(() => res.json(product))
+    .catch(error => res.status(500).json({error}));
+});
+
+// Update a product
+router.patch('/:id', (req, res) => {
+  let manager   = req.getManager();
+  let populator = req.wetland.getPopulator(manager);
+
+  manager.getRepository(Product)
+    .findOne(req.params.id)
+    .then(product => {
+      if (!product) {
+        return res.status(404).json(null);
+      }
+
+      // Only allow own-properties in populate.
+      populator.assign(Product, req.body, product, false);
+
+      // Nested then, to avoid and action on 404.
+      return manager.flush().then(() => res.json(product));
+    })
     .catch(error => res.status(500).json({error}));
 });
 
